@@ -14,6 +14,8 @@ class Link
 end
 
 class LinkedList
+  self.extend(Enumerable)
+
   def initialize
   end
 
@@ -23,27 +25,92 @@ class LinkedList
   end
 
   def first
+    return @head.val
+    nil
   end
 
   def last
+    return @tail.val
+    nil
   end
 
   def empty?
   end
 
   def get(key)
+    current_link = @head
+
+    while current_link != nil
+      return current_link.val if current_link.key == key
+      current_link = current_link.next
+    end
+
+    nil
   end
 
   def include?(key)
+    return false if @head == nil
+    current_link = @head
+
+    while current_link != nil
+      return true if current_link.key == key
+      current_link = current_link.next
+    end
+
+    false
   end
 
   def insert(key, val)
+    new_link = Link.new(key,val)
+
+    if @head == nil
+      @head = new_link
+      @tail = @head
+    else
+      current = @head
+
+      while current.next != nil
+        current = current.next
+      end
+
+      current.next = new_link
+      @tail = new_link
+    end
+
   end
 
   def remove(key)
+    current_link = @head
+
+    while current_link != nil
+      if @head == @tail && current_link == @head && current_link.key == key
+        @head = nil
+        @tail = nil
+      elsif current_link == @head && current_link.key == key
+        @head = current_link.next
+        current_link.next = nil
+      elsif current_link == @tail && current_link.key == key
+        @tail = current_link.prev
+        current_link.prev.next = nil
+      else
+        current_link.prev.next = current_link.next
+        current_link.next.prev = current_link.prev
+        current_link.next = nil
+        current_link.prev = nil
+      end
+
+      current_link = current_link.next
+    end
   end
 
   def each
+    current_link = @head
+
+    while current_link != nil
+      yield current_link
+      current_link = current_link.next
+    end
+
   end
 
   # uncomment when you have `each` working and `Enumerable` included
