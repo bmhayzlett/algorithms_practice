@@ -15,6 +15,7 @@ end
 
 class LinkedList
   self.extend(Enumerable)
+  attr_reader :head
 
   def initialize
   end
@@ -35,6 +36,7 @@ class LinkedList
   end
 
   def empty?
+    return true if @head == nil
   end
 
   def get(key)
@@ -78,6 +80,7 @@ class LinkedList
       @tail.prev = current
     end
 
+    return new_link
   end
 
   def remove(key)
