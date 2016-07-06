@@ -75,32 +75,43 @@ class LinkedList
 
       current.next = new_link
       @tail = new_link
+      @tail.prev = current
     end
 
   end
 
   def remove(key)
     current_link = @head
+    removed = false
 
     while current_link != nil
       if @head == @tail && current_link == @head && current_link.key == key
         @head = nil
         @tail = nil
+        removed = true
+        break
       elsif current_link == @head && current_link.key == key
         @head = current_link.next
-        current_link.next = nil
+        current_link = current_link.next
+        current_link.prev = nil
+        removed = true
       elsif current_link == @tail && current_link.key == key
         @tail = current_link.prev
         current_link.prev.next = nil
-      else
+        current_link.prev = nil
+        removed = true
+      elsif current_link.key == key
         current_link.prev.next = current_link.next
         current_link.next.prev = current_link.prev
         current_link.next = nil
         current_link.prev = nil
+        removed = true
       end
 
       current_link = current_link.next
     end
+
+    removed
   end
 
   def each
@@ -114,7 +125,7 @@ class LinkedList
   end
 
   # uncomment when you have `each` working and `Enumerable` included
-  # def to_s
-  #   inject([]) { |acc, link| acc << "[#{link.key}, #{link.val}]" }.join(", ")
-  # end
+  def to_s
+    inject([]) { |acc, link| acc << "[#{link.key}, #{link.val}]" }.join(", ")
+  end
 end
