@@ -22,7 +22,6 @@ class LRUCache
       eject! if @map.count >= @max
       called = @prc.call(key)
       link = @store.insert(key,called)
-      debugger
       @map[key] = link
     end
 
@@ -46,7 +45,7 @@ class LRUCache
   end
 
   def eject!
-    debugger
+    @map.delete(@store.head.key)
     @store.remove(@store.head.key)
   end
 end
