@@ -1,3 +1,5 @@
+require 'byebug'
+
 class BinaryMinHeap
   def initialize(&prc)
   end
@@ -19,6 +21,7 @@ class BinaryMinHeap
 
   public
   def self.child_indices(len, parent_index)
+    byebug
   end
 
   def self.parent_index(child_index)
