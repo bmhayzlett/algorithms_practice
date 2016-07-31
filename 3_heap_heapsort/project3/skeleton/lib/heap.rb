@@ -2,18 +2,37 @@ require 'byebug'
 
 class BinaryMinHeap
   def initialize(&prc)
+    @store = []
+    @prc = prc ||= Proc.new { |x, y| x <=> y }
   end
 
   def count
+    @store.length
   end
 
   def extract
+
+    extracted = @store[0]
+
+    if @store.length == 1
+      @store = []
+      return extracted
+    else
+      @store[0] = store.pop
+      BinaryMinHeap.heapify_down(@store, 0, @store.length, &prc)
+      return extracted
+    end
+
   end
 
   def peek
+    @store[0]
   end
 
   def push(val)
+    loc = @store.length
+    @store.push(val)
+    BinaryMinHeap.heapify_up(@store, loc, @store.length, &prc)
   end
 
   protected
@@ -48,15 +67,16 @@ class BinaryMinHeap
 
     parent_el = array[parent_idx]
     return array if children.length < 1
+    # byebug
 
     child1_el = array[children[0]]
     child2_el = array[children[1]] if children.length > 1
 
-    if prc.call(parent_el, child1_el) > 0 && children.length == 1 || prc.call(child2_el, child1_el) > 0
+    if prc.call(parent_el, child1_el) > 0 && (children.length == 1 || prc.call(child2_el, child1_el) > 0)
       array[parent_idx] = child1_el
       array[children[0]] = parent_el
       return self.heapify_down(array, children[0], len, &prc)
-    elsif prc.call(parent_el, child2_el) > 0 && prc.call(child1_el, child2_el) > 0
+    elsif children.length > 1 && prc.call(parent_el, child2_el) > 0
       array[parent_idx] = child2_el
       array[children[1]] = parent_el
       return self.heapify_down(array, children[1], len, &prc)
