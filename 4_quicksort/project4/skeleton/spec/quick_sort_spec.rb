@@ -1,6 +1,14 @@
 require "quick_sort"
 
 describe QuickSort do
+  describe "sort1!" do
+    it 'sorts an array' do
+      arr = [3,1,5,2,4]
+      sorted = QuickSort.sort1(arr)
+      expect(sorted).to eq([1,2,3,4,5])
+    end
+  end
+
   describe "partition" do
     it "partitions the whole array properly" do
       arr = [3, 1, 5, 2, 4]

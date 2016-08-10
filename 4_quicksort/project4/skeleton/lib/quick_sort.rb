@@ -1,9 +1,23 @@
+require 'byebug'
+
 class QuickSort
   # Quick sort has average case time complexity O(nlogn), but worst
   # case O(n**2).
 
   # Not in-place. Uses O(n) memory.
   def self.sort1(array)
+    return array if array.length <= 1
+
+    pivot = array.pop
+    less = []
+    greater = []
+
+    array.each do |el|
+      less << el if el <= pivot
+      greater << el if el > pivot
+    end
+
+    return self.sort1(less) + [pivot] + self.sort1(greater)
   end
 
   # In-place.
@@ -11,5 +25,6 @@ class QuickSort
   end
 
   def self.partition(array, start, length, &prc)
+    prc ||= Proc.new {} |x,y| x <=> y }
   end
 end

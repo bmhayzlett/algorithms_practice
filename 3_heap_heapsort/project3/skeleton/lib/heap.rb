@@ -67,7 +67,6 @@ class BinaryMinHeap
 
     parent_el = array[parent_idx]
     return array if children.length < 1
-    # byebug
 
     child1_el = array[children[0]]
     child2_el = array[children[1]] if children.length > 1
