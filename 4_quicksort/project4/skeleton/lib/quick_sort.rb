@@ -1,4 +1,4 @@
-require 'byebug'
+berrequire 'byebug'
 
 class QuickSort
   # Quick sort has average case time complexity O(nlogn), but worst
@@ -8,16 +8,17 @@ class QuickSort
   def self.sort1(array)
     return array if array.length <= 1
 
-    pivot = array.pop
+    pivots = [array.pop]
     less = []
     greater = []
 
     array.each do |el|
-      less << el if el <= pivot
-      greater << el if el > pivot
+      less << el if el < pivots.first
+      pivots << el if el == pivots.first
+      greater << el if el > pivots.first
     end
 
-    return self.sort1(less) + [pivot] + self.sort1(greater)
+    return self.sort1(less) + pivots + self.sort1(greater)
   end
 
   # In-place.
@@ -25,6 +26,8 @@ class QuickSort
   end
 
   def self.partition(array, start, length, &prc)
-    prc ||= Proc.new {} |x,y| x <=> y }
+    prc ||= Proc.new { |x,y| x <=> y }
+
+
   end
 end
